@@ -26,6 +26,7 @@
     nav.classList.add("open");
     burger.classList.add("open");
     scrim.classList.add("open");
+    header.classList.add("menu-open");
     burger.setAttribute("aria-expanded", "true");
     document.body.style.overflow = "hidden";
   }
@@ -34,6 +35,7 @@
     nav.classList.remove("open");
     burger.classList.remove("open");
     scrim.classList.remove("open");
+    header.classList.remove("menu-open");
     burger.setAttribute("aria-expanded", "false");
     document.body.style.overflow = "";
   }
