@@ -53,7 +53,6 @@ a {
   justify-content: space-between;
   gap: 1.5rem;
   padding: 1.7rem clamp(1.25rem, 4.6vw, 4rem);
-  /* backdrop-filter always on — prevents GPU layer flash when scrolled class toggled */
   backdrop-filter: blur(0px);
   -webkit-backdrop-filter: blur(0px);
   background: rgba(4, 4, 4, 0);
@@ -482,7 +481,6 @@ nav {
   object-position: center 18%;
 }
 
-/* Strong gradient so text is legible over the photo */
 .about-media::after {
   position: absolute;
   inset: 0;
@@ -599,13 +597,11 @@ footer {
   outline: none;
 }
 
-/* Zoom the background image on hover */
 .cert-card:hover .cert-bg,
 .cert-card:focus-visible .cert-bg {
   transform: scale(1.06);
 }
 
-/* Show the hint on hover */
 .cert-card:hover .cert-click-hint,
 .cert-card:focus-visible .cert-click-hint {
   opacity: 1;
@@ -620,7 +616,6 @@ footer {
   transition: transform 360ms ease;
 }
 
-/* Dark gradient so text reads cleanly over image */
 .cert-overlay {
   position: absolute;
   inset: 0;
@@ -667,7 +662,6 @@ footer {
   font-size: 0.88rem;
 }
 
-/* "View Certificate" hint that slides up on hover */
 .cert-click-hint {
   position: absolute;
   top: 1.1rem;
@@ -806,137 +800,244 @@ footer {
   }
 }
 
-/* ── Phone (≤ 640px) ────────────────────────────────────────────── */
+/* ── Desktop: ensure hamburger elements never show ──────────────── */
+@media (min-width: 641px) {
+  .nav-burger,
+  .nav-scrim {
+    display: none !important;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   PHONE  ·  ≤ 640px
+   ══════════════════════════════════════════════════════════════════ */
 @media (max-width: 640px) {
 
-  /* ── Header ── */
+  /* ── 1. HEADER: brand left, burger right ───────────────────── */
+
   .site-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.4rem;
-    /* left padding pushed right so nothing hides behind browser chrome */
-    padding: 0.9rem 1rem 0.75rem 1rem;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.1rem;
+    gap: 0;
   }
 
   .site-header.scrolled {
-    padding-top: 0.65rem;
-    padding-bottom: 0.65rem;
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
   }
 
   .brand {
-    font-size: 1.4rem;
+    font-size: 1.3rem;
   }
 
-  /* Nav: single scrollable row, no wrapping */
+  /* Nav hidden by default — JS adds .open to slide it in */
   nav {
-    width: 100%;
-    display: flex;
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    scrollbar-width: none;
-    -webkit-overflow-scrolling: touch;
+    display: none;
+    position: fixed;
+    inset: 0 0 0 auto;
+    width: min(80vw, 260px);
+    background: rgba(8, 8, 10, 0.97);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-left: 1px solid rgba(255, 255, 255, 0.08);
+    flex-direction: column;
+    align-items: flex-start;
     gap: 0;
-    font-size: 0.8rem;
-    padding-bottom: 2px;
+    padding: 5rem 1.5rem 2rem;
+    z-index: 100;
+    overflow-y: auto;
+    font-size: 1rem;
+    transform: translateX(100%);
+    transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1);
   }
 
-  nav::-webkit-scrollbar { display: none; }
+  nav.open {
+    display: flex;
+    transform: translateX(0);
+  }
 
   .nav-link {
-    flex-shrink: 0;
-    padding: 0.3rem 0.65rem 0.45rem;
+    width: 100%;
+    padding: 0.9rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    font-size: 1rem;
   }
 
-  /* ── Hero ──
-     Extra LEFT padding (1.5rem → pushes copy clear of the
-     floating Android media-control panel ~80px wide) */
+  /* Remove underline indicator inside drawer */
+  .nav-link.active::after {
+    display: none;
+  }
+
+  /* ── Hamburger button ─────────────────────────────────────── */
+
+  .nav-burger {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 38px;
+    height: 38px;
+    padding: 6px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    z-index: 101;
+    flex-shrink: 0;
+  }
+
+  .nav-burger span {
+    display: block;
+    height: 2px;
+    border-radius: 2px;
+    background: #f5f5f5;
+    transition: transform 280ms ease, opacity 200ms ease;
+  }
+
+  .nav-burger.open span:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+  }
+  .nav-burger.open span:nth-child(2) {
+    opacity: 0;
+  }
+  .nav-burger.open span:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+  }
+
+  /* ── Scrim behind open drawer ─────────────────────────────── */
+
+  .nav-scrim {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    z-index: 99;
+    backdrop-filter: blur(2px);
+  }
+
+  .nav-scrim.open {
+    display: block;
+  }
+
+  /* ── 2. HERO — image less dominant, copy at bottom-left ────── */
+
   .hero {
     min-height: 100svh;
-    padding: 7.5rem 1rem 1.4rem 1.5rem;
-    gap: 1rem;
+    justify-content: flex-end;   /* copy sticks to bottom */
+    padding: 0 1.1rem 2rem 1.1rem;
+    gap: 0.75rem;
   }
 
+  /* Dim & crop so the face sits in the upper half */
   .hero-backdrop {
-    /* centre the portrait photo better on narrow screens */
-    background-position: 72% 20%;
+    background-position: 68% 12%;
+    background-size: 120% auto;
+    filter: brightness(0.58);
   }
+
+  /* Extra gradient so text always readable over the photo */
+  .hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to bottom,
+      transparent 28%,
+      rgba(4, 4, 4, 0.5) 55%,
+      rgba(4, 4, 4, 0.93) 78%
+    );
+    pointer-events: none;
+  }
+
+  /* ── 3. COPY — smaller ──────────────────────────────────────── */
 
   .hero-copy {
+    position: relative;
+    z-index: 2;
     margin-top: 0;
     max-width: 100%;
-    /* push content right away from left-edge browser chrome */
-    padding-left: 0.5rem;
+    padding: 0;
+  }
+
+  .eyebrow {
+    font-size: 0.66rem;
+    margin-bottom: 0.35rem;
+    letter-spacing: 0.13em;
   }
 
   .hero h1 {
-    max-width: none;
-    font-size: clamp(2.6rem, 11.5vw, 3.6rem);
+    font-size: clamp(1.9rem, 8.5vw, 2.6rem);
     letter-spacing: -0.05em;
+    line-height: 1.02;
+    max-width: none;
   }
 
   .hero-subtitle {
-    max-width: 100%;
-    font-size: 0.93rem;
-    line-height: 1.5;
+    font-size: 0.8rem;
+    line-height: 1.45;
+    margin-top: 0.5rem;
+    max-width: 88%;
   }
 
+  /* ── 4. BUTTONS — smaller, side-by-side ────────────────────── */
+
   .hero-actions {
-    flex-direction: column;
-    gap: 0.6rem;
-    margin-top: 1.2rem;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.85rem;
   }
 
   .button {
-    width: 100%;
-    min-height: 48px;
-    font-size: 0.88rem;
+    width: auto;
+    min-height: 40px;
+    padding: 0.5rem 1rem;
+    font-size: 0.78rem;
   }
 
+  /* ── 5. META PILLS ──────────────────────────────────────────── */
+
   .meta-list {
-    margin-top: 1rem;
-    gap: 0.45rem;
+    margin-top: 0.65rem;
+    gap: 0.32rem;
   }
 
   .meta-list li {
-    font-size: 0.8rem;
-    padding: 0.5rem 0.75rem;
+    font-size: 0.72rem;
+    padding: 0.36rem 0.62rem;
   }
+
+  /* ── 6. HERO PREVIEW label ──────────────────────────────────── */
 
   .hero-preview {
-    flex-direction: column;
-    align-items: flex-start;
+    position: relative;
+    z-index: 2;
+    flex-direction: row;
+    align-items: flex-end;
     gap: 0.5rem;
-    padding-left: 0.5rem;
+    padding: 0;
   }
 
-  .hero-preview-copy p {
-    font-size: 0.76rem;
-  }
+  .hero-preview-copy p  { font-size: 0.7rem; }
+  .hero-preview-copy h2 { font-size: 1.1rem; letter-spacing: -0.03em; }
 
-  .hero-preview-copy h2 {
-    font-size: 1.5rem;
-    letter-spacing: -0.04em;
-  }
+  /* ── 7. CONTENT SECTIONS ────────────────────────────────────── */
 
-  .hero-preview-controls {
-    align-self: flex-end;
-  }
-
-  /* ── Content sections ── */
   .content-section {
     padding-left: 1rem;
     padding-right: 1rem;
     padding-bottom: 2rem;
   }
 
-  /* ── Highlights rail: swipeable, one card at a time ── */
+  /* ── Highlights rail: swipeable single cards ── */
   .card-rail {
     gap: 0.7rem;
     padding-bottom: 0.6rem;
   }
 
   #highlights-rail {
-    display: flex;               /* flex instead of grid on mobile */
+    display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
     overflow-x: auto;
@@ -944,14 +1045,12 @@ footer {
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
     gap: 0.7rem;
-    /* show a sliver of next card as affordance */
     padding-right: 1rem;
   }
 
   #highlights-rail::-webkit-scrollbar { display: none; }
 
   .feature-card {
-    /* each card = ~85% viewport so one card fills screen */
     flex: 0 0 85vw;
     min-height: 200px;
     scroll-snap-align: start;
@@ -998,7 +1097,7 @@ footer {
     font-size: 0.85rem;
   }
 
-  /* ── Football / About panel ── */
+  /* ── About panel ── */
   .about-panel {
     min-height: 300px;
   }
@@ -1036,7 +1135,7 @@ footer {
     height: 240px;
   }
 
-  /* Always show the "View Certificate" hint on mobile (no hover) */
+  /* Always show hint on mobile (no hover state) */
   .cert-click-hint {
     opacity: 1;
     transform: translateY(0);
@@ -1069,7 +1168,7 @@ footer {
     gap: 0.6rem;
   }
 
-  /* ── Certificate modal – centered overlay on phone ── */
+  /* ── Certificate modal ── */
   .cert-modal {
     padding: 1rem;
     align-items: center;

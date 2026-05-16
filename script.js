@@ -1,3 +1,64 @@
+/* ── HAMBURGER NAV (mobile only) ───────────────────────────────────
+   Injects the 3-line burger button and a scrim, wires up the
+   slide-in drawer. CSS handles all visual styling.
+   ─────────────────────────────────────────────────────────────── */
+
+(function initHamburger() {
+  const header = document.getElementById("site-header");
+  const nav    = header.querySelector("nav");
+
+  // 1. Burger button (appended into header)
+  const burger = document.createElement("button");
+  burger.className = "nav-burger";
+  burger.type      = "button";
+  burger.setAttribute("aria-label", "Open navigation menu");
+  burger.setAttribute("aria-expanded", "false");
+  burger.innerHTML = "<span></span><span></span><span></span>";
+  header.appendChild(burger);
+
+  // 2. Dark scrim that sits behind the open drawer
+  const scrim = document.createElement("div");
+  scrim.className = "nav-scrim";
+  document.body.appendChild(scrim);
+
+  // 3. Open / close helpers
+  function openNav() {
+    nav.classList.add("open");
+    burger.classList.add("open");
+    scrim.classList.add("open");
+    burger.setAttribute("aria-expanded", "true");
+    document.body.style.overflow = "hidden";
+  }
+
+  function closeNav() {
+    nav.classList.remove("open");
+    burger.classList.remove("open");
+    scrim.classList.remove("open");
+    burger.setAttribute("aria-expanded", "false");
+    document.body.style.overflow = "";
+  }
+
+  burger.addEventListener("click", () =>
+    nav.classList.contains("open") ? closeNav() : openNav()
+  );
+
+  // Tap scrim → close
+  scrim.addEventListener("click", closeNav);
+
+  // Tap a nav link → close (single-page nav)
+  nav.querySelectorAll(".nav-link").forEach((link) =>
+    link.addEventListener("click", closeNav)
+  );
+
+  // Escape key → close
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && nav.classList.contains("open")) closeNav();
+  });
+})();
+
+/* ── END HAMBURGER ──────────────────────────────────────────────── */
+
+
 /* ── Header scroll behaviour ───────────────────────────────────── */
 const header = document.getElementById("site-header");
 
