@@ -1038,7 +1038,7 @@ footer {
 
   /* ── NEW: Pull the Highlights section up into the empty space ── */
   #highlights.content-section {
-    margin-top: -34vh;
+    margin-top: -31vh; /* Adjusted to move the section down slightly */
     position: relative;
     z-index: 10;
   }
@@ -1059,6 +1059,7 @@ footer {
     scrollbar-width: none;
     gap: 0.7rem;
     padding-right: 1rem;
+    padding-top: 0.8rem; /* ADDED: This prevents the hover animation from being cut off */
   }
 
   #highlights-rail::-webkit-scrollbar { display: none; }
