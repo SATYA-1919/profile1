@@ -930,28 +930,27 @@ footer {
   .hero {
     min-height: 100svh;
     justify-content: flex-end;
-    padding: 0 1.1rem 2rem 1.1rem;
+    padding: 0 1.1rem 38vh 1.1rem;
     gap: 0.75rem;
   }
 
-  /* Image covers the entire hero, flush to the top — no gap */
+  /* Image kept exactly as original — size and position unchanged */
   .hero-backdrop {
-    background-position: center top;
-    background-size: cover;
-    filter: brightness(0.6);
-    opacity: 1;
+    background-position: 68% 12%;
+    background-size: 120% auto;
+    filter: brightness(0.58);
   }
 
-  /* Dark gradient over image so text is always readable */
+  /* Gradient fades black in at the bottom so text stays readable */
   .hero::after {
     content: "";
     position: absolute;
     inset: 0;
     background: linear-gradient(
       to bottom,
-      transparent 30%,
-      rgba(4, 4, 4, 0.48) 52%,
-      rgba(4, 4, 4, 0.93) 76%
+      transparent 28%,
+      rgba(4, 4, 4, 0.35) 48%,
+      rgba(4, 4, 4, 0.82) 68%
     );
     pointer-events: none;
     z-index: 0;
