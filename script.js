@@ -2,7 +2,7 @@
 const header = document.getElementById("site-header");
 
 const onScroll = () => {
-  header.classList.toggle("scrolled", window.scrollY > 40);
+  header.classList.toggle("scrolled", window.scrollY > 80);
 };
 
 window.addEventListener("scroll", onScroll, { passive: true });

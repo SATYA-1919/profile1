@@ -53,17 +53,23 @@ a {
   justify-content: space-between;
   gap: 1.5rem;
   padding: 1.7rem clamp(1.25rem, 4.6vw, 4rem);
+  /* backdrop-filter always on — prevents GPU layer flash when scrolled class toggled */
+  backdrop-filter: blur(0px);
+  -webkit-backdrop-filter: blur(0px);
+  background: rgba(4, 4, 4, 0);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0);
   transition:
-    background-color 180ms ease,
-    backdrop-filter 180ms ease,
-    border-color 180ms ease,
-    padding 180ms ease;
+    background-color 280ms ease,
+    box-shadow 280ms ease,
+    backdrop-filter 280ms ease,
+    padding 280ms ease;
 }
 
 .site-header.scrolled {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-  background: rgba(4, 4, 4, 0.8);
+  background: rgba(4, 4, 4, 0.82);
   backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.06);
   padding-top: 1.05rem;
   padding-bottom: 1.05rem;
 }
@@ -800,100 +806,115 @@ footer {
   }
 }
 
-/* ── Phone (≤ 640px) – primary mobile treatment ── */
+/* ── Phone (≤ 640px) ────────────────────────────────────────────── */
 @media (max-width: 640px) {
 
-  /* Header: keep brand + nav on two compact lines */
+  /* ── Header ── */
   .site-header {
     flex-direction: column;
     align-items: flex-start;
-    gap: 0.5rem;
-    padding: 1rem 1.1rem 0.85rem;
+    gap: 0.4rem;
+    /* left padding pushed right so nothing hides behind browser chrome */
+    padding: 0.9rem 1rem 0.75rem 1rem;
   }
 
   .site-header.scrolled {
-    padding-top: 0.75rem;
-    padding-bottom: 0.75rem;
+    padding-top: 0.65rem;
+    padding-bottom: 0.65rem;
   }
 
   .brand {
-    font-size: 1.45rem;
+    font-size: 1.4rem;
   }
 
+  /* Nav: single scrollable row, no wrapping */
   nav {
     width: 100%;
     display: flex;
     flex-wrap: nowrap;
     overflow-x: auto;
-    gap: 0;
     scrollbar-width: none;
     -webkit-overflow-scrolling: touch;
-    font-size: 0.82rem;
-    color: #d7d7da;
-    /* extra bottom padding so the active underline isn't clipped */
-    padding-bottom: 4px;
+    gap: 0;
+    font-size: 0.8rem;
+    padding-bottom: 2px;
   }
 
-  nav::-webkit-scrollbar {
-    display: none;
-  }
+  nav::-webkit-scrollbar { display: none; }
 
   .nav-link {
     flex-shrink: 0;
-    padding: 0.35rem 0.7rem 0.5rem;
+    padding: 0.3rem 0.65rem 0.45rem;
   }
 
-  /* Hero */
+  /* ── Hero ──
+     Extra LEFT padding (1.5rem → pushes copy clear of the
+     floating Android media-control panel ~80px wide) */
   .hero {
     min-height: 100svh;
-    padding: 7.8rem 1.1rem 1.5rem;
-    gap: 1.25rem;
+    padding: 7.5rem 1rem 1.4rem 1.5rem;
+    gap: 1rem;
+  }
+
+  .hero-backdrop {
+    /* centre the portrait photo better on narrow screens */
+    background-position: 72% 20%;
   }
 
   .hero-copy {
     margin-top: 0;
     max-width: 100%;
+    /* push content right away from left-edge browser chrome */
+    padding-left: 0.5rem;
   }
 
   .hero h1 {
     max-width: none;
-    font-size: clamp(2.8rem, 13vw, 4rem);
+    font-size: clamp(2.6rem, 11.5vw, 3.6rem);
     letter-spacing: -0.05em;
   }
 
   .hero-subtitle {
     max-width: 100%;
-    font-size: 0.97rem;
+    font-size: 0.93rem;
+    line-height: 1.5;
   }
 
   .hero-actions {
     flex-direction: column;
-    margin-top: 1.4rem;
+    gap: 0.6rem;
+    margin-top: 1.2rem;
   }
 
   .button {
     width: 100%;
-    min-height: 50px;
+    min-height: 48px;
+    font-size: 0.88rem;
   }
 
   .meta-list {
-    margin-top: 1.2rem;
-    gap: 0.5rem;
+    margin-top: 1rem;
+    gap: 0.45rem;
   }
 
   .meta-list li {
-    font-size: 0.82rem;
-    padding: 0.55rem 0.8rem;
+    font-size: 0.8rem;
+    padding: 0.5rem 0.75rem;
   }
 
   .hero-preview {
     flex-direction: column;
     align-items: flex-start;
-    gap: 0.6rem;
+    gap: 0.5rem;
+    padding-left: 0.5rem;
+  }
+
+  .hero-preview-copy p {
+    font-size: 0.76rem;
   }
 
   .hero-preview-copy h2 {
-    font-size: 1.65rem;
+    font-size: 1.5rem;
     letter-spacing: -0.04em;
   }
 
@@ -901,135 +922,181 @@ footer {
     align-self: flex-end;
   }
 
-  /* Content sections */
+  /* ── Content sections ── */
   .content-section {
-    padding-left: 1.1rem;
-    padding-right: 1.1rem;
-    padding-bottom: 2.2rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-bottom: 2rem;
   }
 
-  /* Highlights rail – horizontal scroll one card at a time */
+  /* ── Highlights rail: swipeable, one card at a time ── */
   .card-rail {
-    grid-auto-columns: minmax(0, 78vw);
-    gap: 0.75rem;
-    padding-bottom: 0.75rem;
+    gap: 0.7rem;
+    padding-bottom: 0.6rem;
   }
 
   #highlights-rail {
-    grid-auto-flow: column;
-    grid-template-columns: unset;
-    grid-auto-columns: minmax(0, 78vw);
+    display: flex;               /* flex instead of grid on mobile */
+    flex-direction: row;
+    flex-wrap: nowrap;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
-    padding-bottom: 0.75rem;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    gap: 0.7rem;
+    /* show a sliver of next card as affordance */
+    padding-right: 1rem;
   }
 
+  #highlights-rail::-webkit-scrollbar { display: none; }
+
   .feature-card {
-    min-height: 185px;
+    /* each card = ~85% viewport so one card fills screen */
+    flex: 0 0 85vw;
+    min-height: 200px;
     scroll-snap-align: start;
-    padding: 1.2rem 1.2rem 1.1rem;
+    padding: 1.15rem 1.15rem 1.05rem;
   }
 
   .feature-card h3 {
     font-size: 1.05rem;
+    margin-bottom: 0.5rem;
   }
 
   .feature-card p {
-    font-size: 0.9rem;
-    max-width: none;
-  }
-
-  /* Timeline */
-  .timeline-item {
-    padding-left: 3.4rem;
-    min-height: 100px;
-  }
-
-  .timeline-item h3 {
-    font-size: 1rem;
-    margin-bottom: 0.25rem;
-  }
-
-  /* About / Football panel */
-  .about-panel {
-    min-height: 320px;
-  }
-
-  .about-copy {
-    padding: 1.1rem 1.2rem 1.3rem;
-  }
-
-  .about-panel h3 {
-    font-size: 1.25rem;
-  }
-
-  .about-panel p:last-child {
     font-size: 0.88rem;
     max-width: none;
   }
 
-  /* Skills */
+  /* ── Section headings ── */
+  .section-heading h2 {
+    font-size: 1.4rem;
+  }
+
+  /* ── Timeline ── */
+  .timeline::before {
+    left: 1.5rem;
+  }
+
+  .timeline-item {
+    padding: 1rem 1rem 1rem 3.2rem;
+    min-height: auto;
+    border-radius: 1rem;
+  }
+
+  .timeline-item::before {
+    left: 1.2rem;
+    top: 1.25rem;
+  }
+
+  .timeline-item h3 {
+    font-size: 0.97rem;
+    margin: 0.3rem 0 0.2rem;
+  }
+
+  .timeline-item p {
+    font-size: 0.85rem;
+  }
+
+  /* ── Football / About panel ── */
+  .about-panel {
+    min-height: 300px;
+  }
+
+  .about-copy {
+    padding: 1rem 1.1rem 1.2rem;
+  }
+
+  .about-panel h3 {
+    font-size: 1.2rem;
+  }
+
+  .about-panel p:last-child {
+    font-size: 0.86rem;
+    max-width: none;
+  }
+
+  /* ── Skills ── */
   .skill-grid {
-    gap: 0.55rem;
+    gap: 0.5rem;
   }
 
   .skill-grid span {
-    font-size: 0.82rem;
-    padding: 0.55rem 0.8rem;
+    font-size: 0.8rem;
+    padding: 0.5rem 0.75rem;
   }
 
-  /* Certifications */
+  /* ── Certifications ── */
   .cert-rail {
     grid-template-columns: 1fr;
-    gap: 0.9rem;
+    gap: 0.85rem;
   }
 
   .cert-card {
-    height: 260px;
+    height: 240px;
+  }
+
+  /* Always show the "View Certificate" hint on mobile (no hover) */
+  .cert-click-hint {
+    opacity: 1;
+    transform: translateY(0);
   }
 
   .cert-copy h3 {
-    font-size: 1rem;
+    font-size: 0.97rem;
   }
 
   .cert-copy p {
-    font-size: 0.82rem;
+    font-size: 0.8rem;
   }
 
-  /* Contact banner */
+  /* ── Contact banner ── */
   .contact-banner {
-    margin: 0 1.1rem 2rem;
-    padding: 1.3rem 1.2rem;
+    margin: 0 1rem 2rem;
+    padding: 1.2rem 1.1rem;
     display: flex;
     flex-direction: column;
-    gap: 1.1rem;
+    gap: 1rem;
   }
 
   .contact-banner h2 {
-    font-size: 1.35rem;
+    font-size: 1.25rem;
   }
 
   .contact-actions {
     flex-direction: column;
     margin-top: 0;
+    gap: 0.6rem;
   }
 
-  /* Modal full-screen on phone */
+  /* ── Certificate modal – centered overlay on phone ── */
   .cert-modal {
-    padding: 0;
-    align-items: flex-end;
+    padding: 1rem;
+    align-items: center;
+    justify-content: center;
   }
 
   .cert-modal-content {
     width: 100%;
     max-width: 100%;
-    border-radius: 1.2rem 1.2rem 0 0;
-    max-height: 88vh;
+    max-height: 82vh;
+    border-radius: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #0d0d0d;
   }
 
   .cert-modal-content img {
-    max-height: 85vh;
     width: 100%;
+    height: auto;
+    max-height: 80vh;
     object-fit: contain;
+    display: block;
+  }
+
+  .cert-modal-close {
+    top: 0.6rem;
+    right: 0.6rem;
   }
 }
