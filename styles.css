@@ -930,7 +930,7 @@ footer {
   .hero {
     min-height: 100svh;
     justify-content: flex-end;
-    padding: 0 1.1rem 1.5rem 1.1rem;
+    padding: 0 1.1rem 38vh 1.1rem; /* Reverted back to the original padding */
     gap: 0.75rem;
   }
 
@@ -1034,6 +1034,13 @@ footer {
     padding-left: 1rem;
     padding-right: 1rem;
     padding-bottom: 2rem;
+  }
+
+  /* ── NEW: Pull the Highlights section up into the empty space ── */
+  #highlights.content-section {
+    margin-top: -34vh;
+    position: relative;
+    z-index: 10;
   }
 
   /* ── Highlights rail: swipeable single cards ── */
