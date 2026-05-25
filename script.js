@@ -1,33 +1,28 @@
-/* ── HAMBURGER NAV (mobile only) ───────────────────────────────────
-   Injects the 3-line burger button and a scrim, wires up the
-   slide-in drawer. CSS handles all visual styling.
-   ─────────────────────────────────────────────────────────────── */
-
 (function initHamburger() {
   const header = document.getElementById("site-header");
-  const nav    = header.querySelector("nav");
+  const nav = header?.querySelector("nav");
 
-  // 1. Burger button (appended into header)
+  if (!header || !nav) return;
+
   const burger = document.createElement("button");
   burger.className = "nav-burger";
-  burger.type      = "button";
+  burger.type = "button";
   burger.setAttribute("aria-label", "Open navigation menu");
   burger.setAttribute("aria-expanded", "false");
   burger.innerHTML = "<span></span><span></span><span></span>";
   header.appendChild(burger);
 
-  // 2. Dark scrim that sits behind the open drawer
   const scrim = document.createElement("div");
   scrim.className = "nav-scrim";
   document.body.appendChild(scrim);
 
-  // 3. Open / close helpers
   function openNav() {
     nav.classList.add("open");
     burger.classList.add("open");
     scrim.classList.add("open");
     header.classList.add("menu-open");
     burger.setAttribute("aria-expanded", "true");
+    burger.setAttribute("aria-label", "Close navigation menu");
     document.body.style.overflow = "hidden";
   }
 
@@ -37,79 +32,77 @@
     scrim.classList.remove("open");
     header.classList.remove("menu-open");
     burger.setAttribute("aria-expanded", "false");
+    burger.setAttribute("aria-label", "Open navigation menu");
     document.body.style.overflow = "";
   }
 
-  burger.addEventListener("click", () =>
-    nav.classList.contains("open") ? closeNav() : openNav()
-  );
+  burger.addEventListener("click", () => {
+    nav.classList.contains("open") ? closeNav() : openNav();
+  });
 
-  // Tap scrim → close
   scrim.addEventListener("click", closeNav);
 
-  // Tap a nav link → close (single-page nav)
-  nav.querySelectorAll(".nav-link").forEach((link) =>
-    link.addEventListener("click", closeNav)
-  );
+  nav.querySelectorAll(".nav-link").forEach((link) => {
+    link.addEventListener("click", closeNav);
+  });
 
-  // Escape key → close
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && nav.classList.contains("open")) closeNav();
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && nav.classList.contains("open")) {
+      closeNav();
+    }
   });
 })();
 
-/* ── END HAMBURGER ──────────────────────────────────────────────── */
-
-
-/* ── Header scroll behaviour ───────────────────────────────────── */
 const header = document.getElementById("site-header");
 
-const onScroll = () => {
-  header.classList.toggle("scrolled", window.scrollY > 80);
-};
+function updateHeaderState() {
+  header?.classList.toggle("scrolled", window.scrollY > 40);
+}
 
-window.addEventListener("scroll", onScroll, { passive: true });
-onScroll();
+window.addEventListener("scroll", updateHeaderState, { passive: true });
+updateHeaderState();
 
-/* ── Active nav link on scroll ─────────────────────────────────── */
-const sections = document.querySelectorAll("main [id]");
 const navLinks = document.querySelectorAll(".nav-link");
+const sections = document.querySelectorAll("main section[id]");
 
 const sectionObserver = new IntersectionObserver(
   (entries) => {
     entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        navLinks.forEach((link) => {
-          link.classList.toggle(
-            "active",
-            link.getAttribute("href") === `#${entry.target.id}`
-          );
-        });
-      }
+      if (!entry.isIntersecting) return;
+
+      navLinks.forEach((link) => {
+        link.classList.toggle(
+          "active",
+          link.getAttribute("href") === `#${entry.target.id}`
+        );
+      });
     });
   },
-  { rootMargin: "-40% 0px -55% 0px" }
+  { rootMargin: "-38% 0px -56% 0px" }
 );
 
 sections.forEach((section) => sectionObserver.observe(section));
 
-/* ── Hero arrow scroll (highlights rail) ───────────────────────── */
-document.querySelectorAll(".hero-arrow").forEach((btn) => {
-  btn.addEventListener("click", () => {
-    const rail = document.getElementById(btn.dataset.railTarget);
-    if (!rail) return;
-    const cardWidth = rail.querySelector(".feature-card")?.offsetWidth ?? 280;
-    rail.scrollBy({ left: parseInt(btn.dataset.direction) * (cardWidth + 16), behavior: "smooth" });
+document.querySelectorAll(".project-toggle").forEach((button) => {
+  button.addEventListener("click", () => {
+    const details = document.getElementById(button.getAttribute("aria-controls"));
+    if (!details) return;
+
+    const isOpen = button.getAttribute("aria-expanded") === "true";
+    button.setAttribute("aria-expanded", String(!isOpen));
+    button.textContent = isOpen ? "View More" : "Show Less";
+    details.hidden = isOpen;
   });
 });
 
-/* ── Certificate modal ──────────────────────────────────────────── */
-const modal      = document.getElementById("cert-modal");
-const modalImg   = document.getElementById("cert-modal-img");
+const modal = document.getElementById("cert-modal");
+const modalImg = document.getElementById("cert-modal-img");
 const modalClose = document.getElementById("cert-modal-close");
-const modalBg    = document.getElementById("cert-modal-backdrop");
+const modalBg = document.getElementById("cert-modal-backdrop");
 
 function openModal(src) {
+  if (!modal || !modalImg || !modalClose) return;
+
   modalImg.src = src;
   modal.classList.add("open");
   document.body.style.overflow = "hidden";
@@ -117,28 +110,29 @@ function openModal(src) {
 }
 
 function closeModal() {
+  if (!modal || !modalImg) return;
+
   modal.classList.remove("open");
   document.body.style.overflow = "";
   modalImg.src = "";
 }
 
-// Click on any cert card
-document.querySelectorAll(".cert-card").forEach((card) => {
+document.querySelectorAll(".cert-card[data-cert]").forEach((card) => {
   card.addEventListener("click", () => openModal(card.dataset.cert));
 
-  // Keyboard: Enter or Space
-  card.addEventListener("keydown", (e) => {
-    if (e.key === "Enter" || e.key === " ") {
-      e.preventDefault();
+  card.addEventListener("keydown", (event) => {
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
       openModal(card.dataset.cert);
     }
   });
 });
 
-// Close via button, backdrop click, or Escape key
-modalClose.addEventListener("click", closeModal);
-modalBg.addEventListener("click", closeModal);
+modalClose?.addEventListener("click", closeModal);
+modalBg?.addEventListener("click", closeModal);
 
-document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape" && modal.classList.contains("open")) closeModal();
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && modal?.classList.contains("open")) {
+    closeModal();
+  }
 });
