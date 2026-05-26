@@ -117,13 +117,19 @@ function closeModal() {
   modalImg.src = "";
 }
 
-document.querySelectorAll(".cert-card[data-cert]").forEach((card) => {
-  card.addEventListener("click", () => openModal(card.dataset.cert));
+document.querySelectorAll("[data-cert]").forEach((card) => {
+  function activatePreview() {
+    card.classList.add("is-clicked");
+    window.setTimeout(() => card.classList.remove("is-clicked"), 460);
+    window.setTimeout(() => openModal(card.dataset.cert), 120);
+  }
+
+  card.addEventListener("click", activatePreview);
 
   card.addEventListener("keydown", (event) => {
     if (event.key === "Enter" || event.key === " ") {
       event.preventDefault();
-      openModal(card.dataset.cert);
+      activatePreview();
     }
   });
 });

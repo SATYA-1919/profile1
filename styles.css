@@ -1503,6 +1503,127 @@ nav {
     linear-gradient(180deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.025));
 }
 
+.cert-card,
+.recommendation-preview {
+  cursor:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 28 28'%3E%3Ccircle cx='10' cy='10' r='7' fill='%23e50914' fill-opacity='.92'/%3E%3Ccircle cx='10' cy='10' r='3' fill='white'/%3E%3C/svg%3E") 10 10,
+    pointer;
+}
+
+.cert-card:active,
+.recommendation-preview:active,
+.cert-card.is-clicked,
+.recommendation-preview.is-clicked {
+  border-color: rgba(229, 9, 20, 0.9);
+  box-shadow:
+    0 24px 60px rgba(0, 0, 0, 0.55),
+    0 0 0 4px rgba(229, 9, 20, 0.2);
+  transform: translateY(-2px) scale(0.985);
+}
+
+.cert-card.is-clicked::before,
+.recommendation-preview.is-clicked::before {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  border: 2px solid rgba(229, 9, 20, 0.85);
+  border-radius: inherit;
+  animation: red-click-pulse 460ms ease;
+  content: "";
+  pointer-events: none;
+}
+
+.recommendations-section {
+  padding-top: clamp(2.5rem, 5vw, 4rem);
+}
+
+.recommendation-preview {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(250px, 0.62fr) minmax(0, 1fr);
+  gap: clamp(1rem, 3vw, 2rem);
+  align-items: stretch;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 1.15rem;
+  background:
+    radial-gradient(circle at top left, rgba(229, 9, 20, 0.12), transparent 30%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.02));
+  box-shadow: 0 18px 56px rgba(0, 0, 0, 0.26);
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.recommendation-preview:hover,
+.recommendation-preview:focus-visible {
+  border-color: rgba(229, 9, 20, 0.58);
+  box-shadow:
+    0 24px 68px rgba(0, 0, 0, 0.42),
+    0 0 0 1px rgba(229, 9, 20, 0.18);
+  outline: none;
+  transform: translateY(-4px);
+}
+
+.letter-thumb {
+  position: relative;
+  min-height: 330px;
+  overflow: hidden;
+  background: #050505;
+}
+
+.letter-thumb::after {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.5)),
+    linear-gradient(0deg, rgba(0, 0, 0, 0.55), transparent 48%);
+  content: "";
+}
+
+.letter-thumb img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  filter: brightness(0.92) contrast(1.08);
+}
+
+.letter-copy {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(1.25rem, 3vw, 2rem);
+}
+
+.letter-copy h3 {
+  margin: 0 0 0.75rem;
+  color: #fff;
+  font-size: clamp(1.4rem, 2.6vw, 2rem);
+}
+
+.letter-copy p {
+  max-width: 56ch;
+  margin: 0;
+  color: var(--muted);
+  font-size: clamp(1rem, 1.6vw, 1.18rem);
+  line-height: 1.7;
+}
+
+@keyframes red-click-pulse {
+  0% {
+    opacity: 0.9;
+    transform: scale(0.985);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(1.035);
+  }
+}
+
 @media (max-width: 1100px) {
   .summary-grid,
   .project-grid,
@@ -1520,6 +1641,14 @@ nav {
 
   .cert-rail {
     grid-template-columns: 1fr;
+  }
+
+  .recommendation-preview {
+    grid-template-columns: 1fr;
+  }
+
+  .letter-thumb {
+    min-height: 280px;
   }
 }
 
