@@ -622,6 +622,13 @@ footer {
   transition: transform 360ms ease;
 }
 
+.cert-card-contain .cert-bg {
+  background-color: #d7d7d7;
+  background-position: center top;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
 .cert-overlay {
   position: absolute;
   inset: 0;
@@ -1428,13 +1435,24 @@ nav {
 
 .activity-panel {
   position: relative;
-  width: min(460px, 100%);
-  min-height: 560px;
+  flex: 0 0 min(420px, 82vw);
+  min-height: 520px;
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 1.25rem;
   background: #111;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.34);
+  scroll-snap-align: start;
+}
+
+.activity-gallery {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0.25rem 0 0.9rem;
+  scroll-snap-type: x proximity;
+  scrollbar-width: thin;
 }
 
 .activity-panel img {
@@ -1570,15 +1588,15 @@ nav {
   position: relative;
   min-height: 330px;
   overflow: hidden;
-  background: #050505;
+  background: #f6f3ed;
 }
 
 .letter-thumb::after {
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(90deg, rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.5)),
-    linear-gradient(0deg, rgba(0, 0, 0, 0.55), transparent 48%);
+    linear-gradient(90deg, rgba(0, 0, 0, 0.02), rgba(0, 0, 0, 0.18)),
+    linear-gradient(0deg, rgba(0, 0, 0, 0.18), transparent 48%);
   content: "";
 }
 
@@ -1586,9 +1604,9 @@ nav {
   display: block;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   object-position: top center;
-  filter: brightness(0.92) contrast(1.08);
+  filter: contrast(1.03);
 }
 
 .letter-copy {
@@ -1690,8 +1708,8 @@ nav {
   }
 
   .activity-panel {
-    width: min(360px, 100%);
-    min-height: 440px;
+    flex-basis: min(320px, 82vw);
+    min-height: 430px;
   }
 
   .activity-panel h3 {
