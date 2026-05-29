@@ -19,13 +19,11 @@
 
         <nav aria-label="Primary navigation">
           <a class="nav-link active" href="#top">Home</a>
-          <a class="nav-link" href="#summary">Summary</a>
-          <a class="nav-link" href="#about">About</a>
-          <a class="nav-link" href="#projects">Projects</a>
-          <a class="nav-link" href="#education">Education</a>
+          <a class="nav-link" href="#about">About Me</a>
           <a class="nav-link" href="#experience">Experience</a>
+          <a class="nav-link" href="#skills">Skills</a>
           <a class="nav-link" href="#certifications">Certificates</a>
-          <a class="nav-link" href="#recommendations">Recommendations</a>
+          <a class="nav-link" href="#activities">Extracurricular</a>
           <a class="nav-link" href="#contact">Contact</a>
         </nav>
       </header>
@@ -133,7 +131,16 @@
               </p>
             </div>
 
-            <aside class="about-empty" aria-hidden="true"></aside>
+            <aside class="about-media" aria-label="Sweching Maio introduction video">
+              <video 
+                src="assets/video.mp4" 
+                autoplay 
+                loop 
+                muted 
+                playsinline
+                style="width: 100%; height: 100%; object-fit: cover; border-radius: 1.15rem; background: #111;"
+              ></video>
+            </aside>
           </div>
         </section>
 
@@ -245,13 +252,34 @@
           </div>
         </section>
 
-        <section class="content-section two-column-section" id="education" aria-labelledby="education-title">
+        <section class="content-section two-column-section" id="experience" aria-labelledby="experience-title">
           <div>
             <div class="section-heading">
-              <p>Education</p>
-              <h2 id="education-title">Academic Journey</h2>
+              <p>Experience & Education</p>
+              <h2 id="experience-title">Academic & Professional Journey</h2>
             </div>
 
+            <h3 style="margin-bottom: 1rem; color: var(--accent); font-size: 0.9rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;">Experience</h3>
+            <div class="timeline" style="margin-bottom: 2.5rem;">
+              <article class="timeline-item">
+                <span>WeAct</span>
+                <h3>Consulting Project</h3>
+                <p>ERW Market Entry Strategy</p>
+              </article>
+
+              <article class="timeline-item">
+                <span>National University of Singapore</span>
+                <h3>Data Analytics & Machine Learning Project</h3>
+              </article>
+
+              <article class="timeline-item">
+                <span>Independent Study</span>
+                <h3>Business Law Research Project</h3>
+                <p>Trademark Registration in India</p>
+              </article>
+            </div>
+
+            <h3 style="margin-bottom: 1rem; color: var(--accent); font-size: 0.9rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;">Education</h3>
             <div class="timeline">
               <article class="timeline-item">
                 <span>Current</span>
@@ -294,30 +322,6 @@
               <span>Leadership</span>
             </div>
           </aside>
-        </section>
-
-        <section class="content-section" id="experience" aria-labelledby="experience-title">
-          <div class="section-heading">
-            <p>Work Experience / Internship</p>
-            <h2 id="experience-title">Experience</h2>
-          </div>
-
-          <div class="experience-grid">
-            <article class="experience-card">
-              <h3>Consulting Project - WeAct</h3>
-              <p>ERW Market Entry Strategy</p>
-            </article>
-
-            <article class="experience-card">
-              <h3>Data Analytics & Machine Learning Project</h3>
-              <p>National University of Singapore</p>
-            </article>
-
-            <article class="experience-card">
-              <h3>Business Law Research Project</h3>
-              <p>Trademark Registration in India</p>
-            </article>
-          </div>
         </section>
 
         <section class="content-section extracurricular-section" id="activities" aria-labelledby="activities-title">
@@ -463,22 +467,28 @@
               href="https://www.linkedin.com/in/sweching-maio-828b28360"
               target="_blank"
               rel="noreferrer"
+              style="gap: 8px;"
             >
-              Open LinkedIn
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+              LinkedIn
             </a>
             <a
               class="button button-secondary"
               href="assets/Sweching_Maio_Resume.pdf"
               target="_blank"
               rel="noreferrer"
+              style="gap: 8px;"
             >
-              Download Resume
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+              Resume
             </a>
-            <a class="button button-secondary" href="tel:+916909778322">
-              Call +91 6909 778 322
+            <a class="button button-secondary" href="tel:+916909778322" style="gap: 8px;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+              +91 6909 778 322
             </a>
-            <a class="button button-secondary" href="mailto:swechingmaio07@gmail.com">
-              Email swechingmaio07@gmail.com
+            <a class="button button-secondary" href="mailto:swechingmaio07@gmail.com" style="gap: 8px;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+              swechingmaio07@gmail.com
             </a>
           </div>
         </section>

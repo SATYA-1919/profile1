@@ -137,7 +137,7 @@ nav {
 .hero-backdrop {
   position: absolute;
   inset: 0;
-  background: url("assets/image.png") 64% 28% / cover no-repeat;
+  background: url("assets/image.png") 64% 28% / cover no-repeat fixed;
   filter: brightness(var(--hero-brightness));
   opacity: var(--hero-opacity);
   transform: scale(var(--hero-scale));
@@ -1049,13 +1049,6 @@ footer {
     padding-bottom: 2rem;
   }
 
-  /* ── NEW: Pull the Highlights section up into the empty space ── */
-  #highlights.content-section {
-    margin-top: -31vh; /* Adjusted to move the section down slightly */
-    position: relative;
-    z-index: 10;
-  }
-
   /* ── Highlights rail: swipeable single cards ── */
   .card-rail {
     gap: 0.7rem;
@@ -1676,7 +1669,7 @@ nav {
   }
 
   .hero {
-    padding-bottom: 30vh;
+    padding-bottom: 2.5rem;
   }
 
   .hero h1 {
