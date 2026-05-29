@@ -1332,30 +1332,204 @@ nav {
   border-left: 3px solid var(--accent);
 }
 
-/* Video sits as the right-hand column beside the About copy, kept at
-   its true portrait proportion (not stretched to the text height). */
+/* Video sits as the right-hand column beside the About copy. Widened
+   horizontally (3/4 frame) so it reads as a player, not a thin strip. */
 .about-section .about-media {
   position: relative;
   inset: auto;
   align-self: start;
   width: 100%;
-  max-width: 300px;
+  max-width: 440px;
   margin-left: auto;
-  aspect-ratio: 478 / 850;
+  aspect-ratio: 3 / 4;
   overflow: hidden;
   border-radius: 1.15rem;
-  background: #111;
+  background: #000;
 }
 
 .about-section .about-media::after {
   content: none;
 }
 
-.about-section .about-media video {
+/* ── YouTube-style custom player ─────────────────────────────────── */
+.video-player {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: #000;
+}
+
+.vp-video {
   display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center 18%;
+  cursor: pointer;
+}
+
+/* Centre play button (only while paused) */
+.vp-bigplay {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 64px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.55);
+  color: #fff;
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 180ms ease, transform 180ms ease;
+  z-index: 3;
+}
+
+.vp-bigplay svg {
+  width: 30px;
+  height: 30px;
+  margin-left: 3px;
+  fill: currentColor;
+}
+
+.video-player.is-paused .vp-bigplay {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.video-player.is-paused .vp-bigplay:hover {
+  transform: scale(1.08);
+  background: rgba(229, 9, 20, 0.9);
+}
+
+/* Control bar */
+.vp-controls {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 1.4rem 0.55rem 0.45rem;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.78), transparent);
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 200ms ease, transform 200ms ease;
+  z-index: 2;
+}
+
+.video-player:hover .vp-controls,
+.video-player:focus-within .vp-controls,
+.video-player.is-paused .vp-controls {
+  opacity: 1;
+  transform: none;
+}
+
+.vp-progress {
+  position: relative;
+  height: 4px;
+  margin: 0 0.3rem 0.45rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.32);
+  cursor: pointer;
+  transition: height 120ms ease;
+}
+
+.vp-progress:hover,
+.vp-progress:focus-visible {
+  height: 6px;
+  outline: none;
+}
+
+.vp-progress-fill {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 0%;
+  border-radius: 999px;
+  background: #ff0000;
+}
+
+.vp-progress-fill::after {
+  content: "";
+  position: absolute;
+  right: -6px;
+  top: 50%;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #ff0000;
+  transform: translateY(-50%) scale(0);
+  transition: transform 120ms ease;
+}
+
+.vp-progress:hover .vp-progress-fill::after {
+  transform: translateY(-50%) scale(1);
+}
+
+.vp-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.15rem;
+}
+
+.vp-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #fff;
+  cursor: pointer;
+  transition: transform 140ms ease, opacity 140ms ease;
+}
+
+.vp-btn:hover {
+  transform: scale(1.12);
+}
+
+.vp-btn svg {
+  width: 21px;
+  height: 21px;
+}
+
+.vp-ic {
+  display: none;
+  fill: currentColor;
+}
+
+.video-player.is-paused .vp-ic-play {
+  display: block;
+}
+
+.video-player:not(.is-paused) .vp-ic-pause {
+  display: block;
+}
+
+.video-player.is-muted .vp-ic-muted {
+  display: block;
+}
+
+.video-player:not(.is-muted) .vp-ic-vol {
+  display: block;
+}
+
+.vp-time {
+  margin-left: 0.3rem;
+  color: #fff;
+  font-size: 0.72rem;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.vp-spacer {
+  flex: 1;
 }
 
 .about-section blockquote {
@@ -1685,8 +1859,14 @@ nav {
   }
 
   .about-section .about-media {
-    max-width: 260px;
+    max-width: 100%;
     margin: 0;
+  }
+
+  /* No hover on touch — keep the player controls visible */
+  .vp-controls {
+    opacity: 1;
+    transform: none;
   }
 
   .cert-rail {
