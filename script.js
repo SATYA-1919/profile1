@@ -62,6 +62,43 @@ function updateHeaderState() {
 window.addEventListener("scroll", updateHeaderState, { passive: true });
 updateHeaderState();
 
+/* ── Parallax scrolling (desktop + mobile) ──────────────────────────
+   Drives the hero backdrop at a slower rate than the page scroll.
+   Uses transform (not background-attachment: fixed, which iOS ignores)
+   and is rAF-throttled so it stays smooth on touch devices. */
+(function initParallax() {
+  const hero = document.querySelector(".hero");
+  const backdrop = document.querySelector(".hero-backdrop");
+  if (!hero || !backdrop) return;
+
+  const reduceMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)"
+  ).matches;
+  if (reduceMotion) return;
+
+  const SPEED = 0.4; // backdrop moves at 40% of scroll speed
+  let ticking = false;
+
+  function render() {
+    ticking = false;
+    const heroHeight = hero.offsetHeight || window.innerHeight;
+    // Only shift while the hero is on screen, and cap the offset so the
+    // 145%-tall backdrop never reveals an edge.
+    const offset = Math.min(window.scrollY, heroHeight) * SPEED;
+    backdrop.style.setProperty("--hero-parallax", `${offset}px`);
+  }
+
+  function onScroll() {
+    if (ticking) return;
+    ticking = true;
+    window.requestAnimationFrame(render);
+  }
+
+  window.addEventListener("scroll", onScroll, { passive: true });
+  window.addEventListener("resize", onScroll, { passive: true });
+  render();
+})();
+
 const navLinks = document.querySelectorAll(".nav-link");
 const sections = document.querySelectorAll("main section[id]");
 

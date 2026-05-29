@@ -123,6 +123,7 @@ nav {
 
 .hero {
   position: relative;
+  overflow: hidden;
   min-height: 100svh;
   display: flex;
   flex-direction: column;
@@ -136,16 +137,21 @@ nav {
 
 .hero-backdrop {
   position: absolute;
-  inset: 0;
-  background: url("assets/image.png") 64% 28% / cover no-repeat fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 145%;
+  background: url("assets/image.png") 64% 28% / cover no-repeat;
   filter: brightness(var(--hero-brightness));
   opacity: var(--hero-opacity);
-  transform: scale(var(--hero-scale));
+  /* Parallax: JS feeds --hero-parallax with a slowed scroll offset.
+     Works on mobile where background-attachment: fixed is ignored. */
+  transform: translate3d(0, var(--hero-parallax, 0px), 0);
   transform-origin: 64% top;
+  will-change: transform;
   transition:
     filter 180ms ease,
-    opacity 180ms ease,
-    transform 180ms ease;
+    opacity 180ms ease;
 }
 
 .hero-copy {
@@ -947,11 +953,12 @@ footer {
     gap: 0.75rem;
   }
 
-  /* Image kept exactly as original — size and position unchanged */
+  /* Image fills the whole hero so the title/subtitle overlay it with
+     no black gap before the summary band below. */
   .hero-backdrop {
-    background-position: 68% 12%;
-    background-size: 120% auto;
-    filter: brightness(0.58);
+    background-position: 58% 16%;
+    background-size: cover;
+    filter: brightness(0.62);
   }
 
   /* Gradient fades black in at the bottom so text stays readable */
@@ -1324,6 +1331,28 @@ nav {
   border-left: 3px solid var(--accent);
 }
 
+/* Video sits as the right-hand column beside the About copy */
+.about-section .about-media {
+  position: relative;
+  inset: auto;
+  align-self: stretch;
+  min-height: 460px;
+  overflow: hidden;
+  border-radius: 1.15rem;
+  background: #111;
+}
+
+.about-section .about-media::after {
+  content: none;
+}
+
+.about-section .about-media video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 .about-section blockquote {
   margin: 0 0 1rem;
   color: #fff;
@@ -1648,6 +1677,10 @@ nav {
   .two-column-section,
   .document-grid {
     grid-template-columns: 1fr;
+  }
+
+  .about-section .about-media {
+    min-height: 340px;
   }
 
   .cert-rail {
